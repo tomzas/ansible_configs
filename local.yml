@@ -1,9 +1,10 @@
 ---
 - hosts: localhost
   connection: local
-  # become: true
+  become: true
 
   tasks:
     - name: Install packages
+      become_user: jakubows
       package:
         name: neovim
