@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Start with installing the XCode CLI tools
+if ! xcode-select -p &> /dev/null; then
+    echo "Installing XCode CLI tools"
+    touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress;
+    PROD=$(softwareupdate -l |
+    grep "\*.*Command Line" |
+    head -n 1 | awk -F"*" '{print $2}' |
+    sed -e 's/^ *//' |
+    tr -d '\n')
+    softwareupdate -i "$PROD" --verbose
+    rm /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+else
+    echo "XCode tools already installed"
+fi
+
+# Install homebrew
+if ! command -v brew &> /dev/null; then
+    echo "Installing Homebrew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+else
+    echo "Homebrew already installed"
+fi
+
+if ! command -v ansible &> /dev/nulll; then
+    echo "Installing ansible"
+    brew install ansible
+else
+    echo "Ansible is already installed"
+fi

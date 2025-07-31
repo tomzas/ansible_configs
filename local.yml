@@ -1,10 +1,27 @@
 ---
 - hosts: localhost
   connection: local
-  become: true
+
+  pre_tasks:
+    - name: Make sure we are running on Mac
+      ansible.builtin.fail:
+        msg: "Ouch! This might not work on nonMac machine"
+      when: ansible_os_family != 'Darwin'
 
   tasks:
     - name: Install packages
-      become_user: jakubows
       package:
-        name: neovim
+        name:
+          - fzf
+          - jq
+          - neovim
+          - ripgrep
+          - starship
+          - wezterm
+
+    - name: Copy .zshrc file
+      copy:
+        src: files/zshrc
+        dest: /Users/jakubows/.zshrc
+        owner: jakubows
+        group: staff
