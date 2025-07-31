@@ -19,9 +19,7 @@
           - starship
           - wezterm
 
-    - name: Copy .zshrc file
-      copy:
-        src: files/zshrc
-        dest: /Users/jakubows/.zshrc
-        owner: jakubows
-        group: staff
+    # - name: Copy .zshrc file
+    #   copy:
+    #     src: files/zshrc
+    #     dest: /Users/jakubows/.zshrc
